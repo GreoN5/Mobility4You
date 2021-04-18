@@ -1,0 +1,3 @@
+ElectricCar, Tesla, Model, 250KW, 9000Ah, 45000.0 euro
+GasCar, Mitsubishi, Eclipse, 2.0L, 190KW, 8000.0 euro
+HybridCar, Toyota, Corolla, 1.4L, 170KW, 4000Ah, 12000.0 euro
