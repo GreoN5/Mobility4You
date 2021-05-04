@@ -1,5 +1,5 @@
 
-public class GasCar extends Car {
+public class GasCar extends Vehicle {
 	
 	public float engineDisplacement;
 

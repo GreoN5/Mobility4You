@@ -2,19 +2,19 @@ import java.util.ArrayList;
 
 public class CarCatalogue {
 
-	private ArrayList<Car> catalogue;
+	private ArrayList<Vehicle> catalogue;
 	
 	public CarCatalogue() {
-		this.catalogue = new ArrayList<Car>();
+		this.catalogue = new ArrayList<Vehicle>();
 	}
 	
-	public void addCarToCatalogue(Car car) {
+	public void addCarToCatalogue(Vehicle car) {
 		this.catalogue.add(car);
 	}
 	
 	public void showAllCars() {
-		for (Car c : this.catalogue) {
-			String carInfo = c.showCarInfo();
+		for (Vehicle v : this.catalogue) {
+			String carInfo = v.showCarInfo();
 			System.out.println(carInfo);
 		}
 		
@@ -33,7 +33,7 @@ public class CarCatalogue {
 		this.showAllCars();
 	}
 	
-	public ArrayList<Car> getCatalogue() {
+	public ArrayList<Vehicle> getCatalogue() {
 		return this.catalogue;
 	}
 }

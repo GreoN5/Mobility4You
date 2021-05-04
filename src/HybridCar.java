@@ -1,5 +1,5 @@
 
-public class HybridCar extends Car {
+public class HybridCar extends Vehicle {
 	
 	public float engineDisplacement;
 	public int batteryCapacity;

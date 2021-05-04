@@ -1,6 +1,11 @@
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -90,11 +95,11 @@ public class Main {
 	private static void addElectricCar() {
 		System.out.print("Type brand name: ");
 		Scanner electricBrand = new Scanner(System.in);
-		String brand = electricBrand.next();
+		String brand = electricBrand.nextLine();
 		
 		System.out.print("Type model name: ");
 		Scanner electricModel = new Scanner(System.in);
-		String model = electricModel.next();
+		String model = electricModel.nextLine();
 		
 		System.out.print("Type engine power: ");
 		Scanner electricEnginePower = new Scanner(System.in);
@@ -116,11 +121,11 @@ public class Main {
 	private static void addGasCar() {
 		System.out.print("Type brand name: ");
 		Scanner gasBrand = new Scanner(System.in);
-		String brand = gasBrand.next();
+		String brand = gasBrand.nextLine();
 		
 		System.out.print("Type model name: ");
 		Scanner gasModel = new Scanner(System.in);
-		String model = gasModel.next();
+		String model = gasModel.nextLine();
 		
 		System.out.print("Type engine power: ");
 		Scanner gasEnginePower = new Scanner(System.in);
@@ -142,11 +147,11 @@ public class Main {
 	private static void addHybridCar() {
 		System.out.print("Type brand name: ");
 		Scanner hybridBrand = new Scanner(System.in);
-		String brand = hybridBrand.next();
+		String brand = hybridBrand.nextLine();
 		
 		System.out.print("Type model name: ");
 		Scanner hybridModel = new Scanner(System.in);
-		String model = hybridModel.next();
+		String model = hybridModel.nextLine();
 		
 		System.out.print("Type engine power: ");
 		Scanner hybridEnginePower = new Scanner(System.in);
@@ -177,19 +182,35 @@ public class Main {
 			
 			if (!carCatalogue.exists()) {
 				System.out.println("Catalogue name does not exists!");
+				return;
 			} else {
-				Scanner obj = new Scanner(fullCatalogue);
 				
-				while (obj.hasNext()) {
-					String line = obj.next();
-					String[] fields = line.split(", ");
+				if (catalogue.getCatalogue().size() > 0) {
+					return;
+				}
+				
+				Scanner obj = new Scanner(Paths.get(fullCatalogue));
+				
+				while (obj.hasNextLine()) {
+					String line = obj.nextLine();
+					String[] carCharacteristics = line.split(", ");
 					
-					if (fields[0] == "GasCar") {
-						catalogue.addCarToCatalogue(new GasCar(fields[1], fields[2], Short.parseShort(fields[3]), Double.parseDouble(fields[4]), Float.parseFloat(fields[5])));
-					} else if (fields[0] == "ElectricCar") {
-						catalogue.addCarToCatalogue(new ElectricCar(fields[1], fields[2], Short.parseShort(fields[3]), Double.parseDouble(fields[4]), Integer.parseInt(fields[5])));
-					} else if (fields[0] == "HybridCar") {
-						catalogue.addCarToCatalogue(new HybridCar(fields[1], fields[2], Short.parseShort(fields[3]), Double.parseDouble(fields[4]), Float.parseFloat(fields[5]), Integer.parseInt(fields[6])));
+					if (carCharacteristics[0].equals("GasCar")) {
+						catalogue.addCarToCatalogue(new GasCar(carCharacteristics[1], carCharacteristics[2], 
+								Short.parseShort(carCharacteristics[4].replaceAll("[a-zA-Z]+", "")), 
+								Double.parseDouble(carCharacteristics[5].replaceAll("[a-zA-Z]+", "")), 
+								Float.parseFloat(carCharacteristics[3].replaceAll("[a-zA-Z]+", ""))));
+					} else if (carCharacteristics[0].equals("ElectricCar")) {
+						catalogue.addCarToCatalogue(new ElectricCar(carCharacteristics[1], carCharacteristics[2], 
+								Short.parseShort(carCharacteristics[3].replaceAll("[a-zA-Z]+", "")), 
+								Double.parseDouble(carCharacteristics[5].replaceAll("[a-zA-Z]+", "")), 
+								Integer.parseInt(carCharacteristics[4].replaceAll("[a-zA-Z]+", ""))));
+					} else if (carCharacteristics[0].equals("HybridCar")) {
+						catalogue.addCarToCatalogue(new HybridCar(carCharacteristics[1], carCharacteristics[2], 
+								Short.parseShort(carCharacteristics[4].replaceAll("[a-zA-Z]+", "")), 
+								Double.parseDouble(carCharacteristics[6].replaceAll("[a-zA-Z]+", "")), 
+								Float.parseFloat(carCharacteristics[3].replaceAll("[a-zA-Z]+", "")), 
+								Integer.parseInt(carCharacteristics[5].replaceAll("[a-zA-Z]+", ""))));
 					}
 				}
 			}
@@ -205,8 +226,6 @@ public class Main {
 		String file = fileName.next();
 		System.out.println();
 		
-		populateCatalogue(file);
-		
 		String fullFile = file + ".txt";
 		
 		try {
@@ -216,8 +235,8 @@ public class Main {
 				carCatalogue.createNewFile();
 				FileWriter writer = new FileWriter(fullFile);
 				
-				for (Car car : catalogue.getCatalogue()) {
-					String carInfo = car.showCarInfo();
+				for (Vehicle vehicle : catalogue.getCatalogue()) {
+					String carInfo = vehicle.showCarInfo();
 					writer.write(carInfo + "\n");
 				}
 				
@@ -226,8 +245,8 @@ public class Main {
 				carCatalogue.delete();
 				FileWriter writer = new FileWriter(fullFile);
 				
-				for (Car car : catalogue.getCatalogue()) {
-					String carInfo = car.showCarInfo();
+				for (Vehicle vehicle : catalogue.getCatalogue()) {
+					String carInfo = vehicle.showCarInfo();
 					writer.write(carInfo + "\n");
 				}
 				
